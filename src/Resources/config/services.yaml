@@ -1,9 +1,5 @@
 services:
-  MediaMonks\FrontendConnector\Controller\FrontendController:
-    tags: ['controller.service_arguments']
-
-  MediaMonks\FrontendConnector\Controller\FrontendConnector: '@MediaMonks\FrontendConnector\Controller\FrontendController'
-
-  MediaMonks\FrontendConnector\Console\SetupCommand:
+  MediaMonks\FrontendConnectorBundle\Console\SetupCommand:
     arguments:
       $projectDir: '%kernel.project_dir%'
+    tags: ['console.command']

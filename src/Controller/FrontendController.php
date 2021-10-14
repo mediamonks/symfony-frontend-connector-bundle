@@ -9,10 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\EventListener\AbstractSessionListener;
 use Twig\Environment;
 
-class FrontController implements FrontendConnector
+class FrontendController implements FrontendConnector
 {
     private Environment $twig;
-    protected string $template = 'frontend.html.twig';
+    protected string $template = '@FrontendConnector/frontend.html.twig';
     protected array $templateData = [];
     protected int $cacheDuration = 300;
 

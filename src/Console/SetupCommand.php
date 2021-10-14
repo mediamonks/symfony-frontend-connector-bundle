@@ -15,9 +15,9 @@ class SetupCommand extends Command
 
     private string $projectDir;
 
-    public function __construct(string $name = null, string $projectDir)
+    public function __construct(string $projectDir)
     {
-        parent::__construct($name);
+        parent::__construct(self::$defaultName);
         $this->projectDir = $projectDir;
     }
 
@@ -40,14 +40,12 @@ class SetupCommand extends Command
         if (isset($parsedYaml['twig']['globals'])) {
             $parsedYaml['twig']['globals']['asset_version'] = '%asset_version%';
         } else {
-            $parsedYaml['twig'] = [
-                'globals' => [
-                    'asset_version' => "'%asset_version%'",
-                ],
+            $parsedYaml['twig']['globals'] = [
+                'asset_version' => "%asset_version%",
             ];
         }
 
-        file_put_contents($twigFile, Yaml::dump($parsedYaml));
+        file_put_contents($twigFile, Yaml::dump($parsedYaml, 5));
 
         $output->writeln('The asset_version property was successfully added to ' . $twigFile);
 
