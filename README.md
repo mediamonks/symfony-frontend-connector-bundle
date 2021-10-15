@@ -8,16 +8,7 @@ of the Composer documentation.
 Applications that use Symfony Flex
 ----------------------------------
 
-### Step 1: Requirements
-
-Make sure you have the TwigBundle installed.  
 Open a command console, enter your project directory and execute:
-
-```console
-$ composer require symfony/twig-bundle
-```
-
-### Step 2: Download the Bundle
 
 ```console
 $ composer require mediamonks/symfony-frontend-connector-bundle
@@ -26,16 +17,7 @@ $ composer require mediamonks/symfony-frontend-connector-bundle
 Applications that don't use Symfony Flex
 ----------------------------------------
 
-### Step 1: Requirements
-
-Make sure you have the TwigBundle installed.  
-Open a command console, enter your project directory and execute:
-
-```console
-$ composer require symfony/twig-bundle
-```
-
-### Step 2: Download the Bundle
+### Step 1: Download the Bundle
 
 Open a command console, enter your project directory and execute the
 following command to download the latest stable version of this bundle:
@@ -44,7 +26,7 @@ following command to download the latest stable version of this bundle:
 $ composer require mediamonks/symfony-frontend-connector-bundle
 ```
 
-### Step 3: Enable the Bundle
+### Step 2: Enable the Bundle
 
 Then, enable the bundle by adding it to the list of registered bundles
 in the `config/bundles.php` file of your project:
@@ -58,13 +40,65 @@ return [
 ];
 ```
 
-### Step 4: Configure the Bundle
+Configuration
+----------------------------------------
 
-Create the following configuration:
+#### Bundle config file
 ```yaml
-# src/config/packages/frontend_connector.yaml
+# config/packages/frontend_connector.yaml
 parameters:
   asset_version: src #[deploytool]
 ```
 
-Afterwards run `frontend-connector:setup`.
+#### Routing file
+```yaml
+# config/routes/frontend_connector.yaml
+frontend-connector:
+  path: /
+  methods: GET
+  requirements:
+    p: '^(?!api/*).+'
+  controller: MediaMonks\FrontendConnectorBundle\Controller\FrontendController::index
+```
+
+Using your own controller
+----------------------------------------
+
+It's easy to overwrite parts of the default controller, by just extending it.
+```php
+// App/Controller/Api/FrontendController
+<?php
+
+declare(strict_types=1);
+
+namespace App\Controller\Api;
+
+use MediaMonks\FrontendConnectorBundle\Controller\FrontendController as BaseController;
+
+class FrontendController extends BaseController {
+    // Setting your own template
+    protected string $template = 'frontend.html.twig';
+    
+    // Setting template data
+    protected array $templateData = [
+        'facebook' => [
+            'title' => 'foo',
+            'description' => 'bar',
+        ]
+    ];
+    
+    // Setting shared max age
+    protected int $cacheDuration = 500;
+}
+```
+
+Adjust the route:
+```yaml
+# config/routes/frontend_connector.yaml
+frontend-connector:
+  path: /
+  methods: GET
+  requirements:
+    p: '^(?!api/*).+'
+  controller: App\Api\Controller\FrontendController::index
+```

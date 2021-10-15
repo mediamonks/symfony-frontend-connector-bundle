@@ -1,6 +1,6 @@
-#frontend-connector:
-#  path: /{p}
-#  methods: GET
-#  requirements:
-#    p: '^(?!api/*).+'
-#  controller: MediaMonks\FrontendConnectorBundle\Controller\FrontendController::index
+frontend-connector:
+  path: /
+  methods: GET
+  requirements:
+    p: '^(?!api/*).+'
+  controller: MediaMonks\FrontendConnectorBundle\Controller\FrontendController::index
