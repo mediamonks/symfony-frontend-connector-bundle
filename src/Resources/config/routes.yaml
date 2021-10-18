@@ -1,5 +1,5 @@
 frontend-connector:
-  path: /
+  path: /{p}
   methods: GET
   requirements:
     p: '^(?!api/*).+'
